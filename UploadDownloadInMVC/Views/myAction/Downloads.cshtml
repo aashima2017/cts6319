@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Downloads";
+}
+
+@model List<string>
+<h2>Downloads</h2>
+<table>
+    <tr>
+        <th>File Name</th>
+        <th>Link</th>
+    </tr>
+    @for (var i = 0; i <= Model.Count - 1; i++)
+    {
+        <tr>
+            <td>@Model[i].ToString() </td>
+            <td>@Html.ActionLink("Download", "Download", new { ImageName = @Model[i].ToString() }) </td>
+            <td><a id="deleteFile" href='javascript:;' onClick="deleteFile('@Model[i].ToString()')">Delete File</a></td>
+        </tr>
+    }
+</table>
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<script>
+
+
+    //$('#deleteFile').click(function () {
+    //    alert('clicked')
+    //});
+
+    function deleteFile(obj) {
+            // Make Ajax request with the contentType = false, and procesDate = false
+            alert(obj)
+            var ajaxRequest = $.ajax({
+                type: "POST",
+                url: "./delete",
+                data: { ImageName:obj}
+            });
+
+            ajaxRequest.done(function (xhr, textStatus) {
+                // Do other operation
+                alert(textStatus);
+                $("#Message").html(textStatus);
+                location.reload();
+            });
+        }
+</script>
